@@ -1,0 +1,733 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ============================================================
+   TOKENS
+   Color   — clinical teal grounds the brand, warm coral carries
+             the one moment of energy (the send button + FAB).
+   Type    — Newsreader (serif) for anything editorial/branded,
+             Inter (sans) for interface and chat text.
+   Layout  — backdrop is a simple nav + split hero + 3-up cards;
+             the widget is a fixed bottom-right dock.
+   ============================================================ */
+:host {
+  --nc-bg: #eef7f6;
+  --nc-surface: #ffffff;
+  --nc-ink: #12302e;
+  --nc-ink-soft: #4d6664;
+  --nc-primary: #0e7c7b;
+  --nc-primary-dark: #0a5453;
+  --nc-primary-light: #55a6a4;
+  --nc-accent: #ff7a59;
+  --nc-accent-dark: #e55f3e;
+  --nc-line: rgba(18, 48, 46, 0.12);
+
+  --glass-fill: rgba(255, 255, 255, 0.6);
+  --glass-fill-strong: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-shadow: rgba(11, 46, 44, 0.28);
+
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  display: block;
+  font-family: var(--font-ui);
+  color: var(--nc-ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   BACKDROP — mock clinic homepage so the widget has a real page
+   to sit on top of.
+   ============================================================ */
+.clinic-page {
+  background: var(--nc-bg);
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+.clinic-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.4rem 4vw;
+  border-bottom: 1px solid var(--nc-line);
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--nc-primary-dark);
+    margin-right: auto;
+  }
+
+  &__mark {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: linear-gradient(160deg, var(--nc-primary-light), var(--nc-primary));
+    color: #fff;
+    display: grid;
+    place-items: center;
+
+    svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+
+  &__links {
+    display: flex;
+    gap: 1.75rem;
+
+    a {
+      color: var(--nc-ink-soft);
+      text-decoration: none;
+      font-size: 0.95rem;
+
+      &:hover {
+        color: var(--nc-primary-dark);
+      }
+    }
+  }
+
+  &__cta {
+    border: none;
+    background: var(--nc-primary);
+    color: #fff;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      background: var(--nc-primary-dark);
+      transform: translateY(-1px);
+    }
+  }
+
+  @media (max-width: 720px) {
+    &__links {
+      display: none;
+    }
+  }
+}
+
+.clinic-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 4.5rem 4vw 3.5rem;
+  max-width: 1180px;
+  margin: 0 auto;
+
+  &__copy {
+    max-width: 46ch;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+    line-height: 1.18;
+    margin: 0 0 1.1rem;
+    color: var(--nc-primary-dark);
+  }
+
+  p {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--nc-ink-soft);
+    margin: 0 0 1.75rem;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.9rem;
+  }
+
+  &__primary,
+  &__secondary {
+    border-radius: 999px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  &__primary {
+    border: none;
+    background: var(--nc-accent);
+    color: #fff;
+
+    &:hover {
+      background: var(--nc-accent-dark);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__secondary {
+    border: 1px solid var(--nc-line);
+    background: transparent;
+    color: var(--nc-primary-dark);
+
+    &:hover {
+      border-color: var(--nc-primary);
+    }
+  }
+
+  &__art {
+    position: relative;
+    height: 260px;
+    border-radius: 28px;
+    background: linear-gradient(160deg, #ffffff, #d9efee);
+    overflow: hidden;
+    box-shadow: 0 20px 40px -20px rgba(14, 124, 123, 0.35);
+  }
+
+  &__pulse {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--nc-primary);
+    opacity: 0.55;
+  }
+
+  &__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+
+    &--a {
+      width: 90px;
+      height: 90px;
+      background: rgba(255, 122, 89, 0.35);
+      top: -20px;
+      right: 10%;
+    }
+
+    &--b {
+      width: 60px;
+      height: 60px;
+      background: rgba(14, 124, 123, 0.3);
+      bottom: 10%;
+      left: 8%;
+    }
+  }
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+    padding-top: 3rem;
+
+    &__art {
+      order: -1;
+      height: 200px;
+    }
+  }
+}
+
+.clinic-services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 4vw;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.clinic-service-card {
+  background: var(--nc-surface);
+  border: 1px solid var(--nc-line);
+  border-radius: 18px;
+  padding: 1.6rem;
+
+  &__icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 12px;
+    background: var(--nc-bg);
+    color: var(--nc-primary);
+    display: grid;
+    place-items: center;
+    margin-bottom: 1rem;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--nc-ink);
+  }
+
+  p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--nc-ink-soft);
+    margin: 0;
+  }
+}
+
+/* ============================================================
+   CHAT WIDGET DOCK
+   ============================================================ */
+.chat-widget {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  bottom: clamp(16px, 3vw, 32px);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+  font-family: var(--font-ui);
+}
+
+/* ---------- Floating action button: skeuomorphic orb ---------- */
+.chat-fab {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.55), transparent 45%),
+    radial-gradient(circle at 70% 75%, var(--nc-primary-dark), var(--nc-primary) 70%);
+  box-shadow:
+    0 14px 26px -8px rgba(10, 84, 83, 0.55),
+    0 2px 0 rgba(255, 255, 255, 0.25) inset,
+    0 -6px 10px rgba(10, 60, 59, 0.35) inset;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.97);
+    box-shadow:
+      0 8px 16px -8px rgba(10, 84, 83, 0.55),
+      0 2px 0 rgba(255, 255, 255, 0.18) inset,
+      0 -3px 6px rgba(10, 60, 59, 0.4) inset;
+  }
+
+  &__icon {
+    width: 26px;
+    height: 26px;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--nc-accent);
+    animation: fab-pulse 2.4s ease-out infinite;
+  }
+}
+
+@keyframes fab-pulse {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.55);
+  }
+}
+
+/* ---------- Chat panel: glassmorphic ---------- */
+.chat-panel {
+  width: min(360px, 88vw);
+  height: min(520px, 70vh);
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--glass-fill);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 24px 60px -18px var(--glass-shadow);
+  transform-origin: bottom right;
+  animation: panel-in 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes panel-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.chat-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.9rem 1.1rem;
+  background: linear-gradient(120deg, var(--nc-primary-dark), var(--nc-primary));
+  color: #fff;
+}
+
+.chat-panel__avatar {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
+
+.chat-panel__title {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+  line-height: 1.25;
+}
+
+.chat-panel__name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.chat-panel__status {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6bffb3;
+  box-shadow: 0 0 0 3px rgba(107, 255, 179, 0.25);
+}
+
+.chat-panel__close {
+  border: none;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.28);
+  }
+}
+
+.chat-panel__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.1rem;
+  background: var(--glass-fill-strong);
+}
+
+/* ---------- Welcome / suggested chips ---------- */
+.chat-welcome {
+  p {
+    margin: 0 0 0.9rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--nc-ink);
+  }
+}
+
+.chat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  button {
+    border: 1px solid var(--nc-line);
+    background: #fff;
+    color: var(--nc-primary-dark);
+    border-radius: 14px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.82rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+
+    &:hover {
+      border-color: var(--nc-primary);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+/* ---------- Messages ---------- */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.chat-message {
+  display: flex;
+
+  &--user {
+    justify-content: flex-end;
+  }
+
+  &--bot {
+    justify-content: flex-start;
+  }
+}
+
+.chat-bubble {
+  max-width: 82%;
+  padding: 0.65rem 0.9rem;
+  border-radius: 16px;
+  font-size: 0.88rem;
+  line-height: 1.48;
+  animation: bubble-in 0.22s ease;
+
+  p {
+    margin: 0;
+  }
+}
+
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message--user .chat-bubble {
+  background: var(--nc-primary);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-message--bot .chat-bubble {
+  background: #fff;
+  color: var(--nc-ink);
+  border: 1px solid var(--nc-line);
+  border-bottom-left-radius: 4px;
+}
+
+.chat-bubble--error {
+  border-color: rgba(229, 95, 62, 0.4);
+  background: rgba(255, 122, 89, 0.08);
+}
+
+.chat-sources {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.76rem;
+  color: var(--nc-ink-soft);
+}
+
+.chat-typing {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.85rem 1rem;
+
+  span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--nc-primary-light);
+    animation: typing-bounce 1.1s ease-in-out infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+  }
+}
+
+@keyframes typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* ---------- Footer / composer: skeuomorphic input trough ---------- */
+.chat-panel__footer {
+  padding: 0.8rem 1.1rem 0.9rem;
+  border-top: 1px solid var(--nc-line);
+  background: var(--glass-fill-strong);
+}
+
+.chat-error {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--nc-accent-dark);
+}
+
+.chat-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.55rem;
+}
+
+.chat-input {
+  flex: 1;
+  resize: none;
+  max-height: 90px;
+  border: 1px solid var(--nc-line);
+  border-radius: 14px;
+  padding: 0.6rem 0.8rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--nc-ink);
+  background: #f4faf9;
+  box-shadow: inset 0 2px 4px rgba(18, 48, 46, 0.08);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--nc-primary);
+    box-shadow: inset 0 2px 4px rgba(18, 48, 46, 0.08), 0 0 0 3px rgba(14, 124, 123, 0.18);
+  }
+
+  &::placeholder {
+    color: #94aeac;
+  }
+}
+
+.chat-send {
+  flex-shrink: 0;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 30%, #ff9a7d, var(--nc-accent) 70%);
+  box-shadow:
+    0 8px 16px -6px rgba(229, 95, 62, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.4) inset;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px) scale(0.96);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.chat-footer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+  color: var(--nc-ink-soft);
+}
+
+.chat-clear {
+  border: none;
+  background: none;
+  color: var(--nc-primary-dark);
+  cursor: pointer;
+  font-size: 0.72rem;
+  text-decoration: underline;
+  padding: 0;
+
+  &:hover {
+    color: var(--nc-accent-dark);
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(14, 124, 123, 0.45);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-panel {
+    width: 92vw;
+    height: 78vh;
+  }
+}

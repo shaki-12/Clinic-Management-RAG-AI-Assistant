@@ -1,0 +1,6 @@
+@AiEnabledClinicManagement_HostAddress = http://localhost:5017
+
+GET {{AiEnabledClinicManagement_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

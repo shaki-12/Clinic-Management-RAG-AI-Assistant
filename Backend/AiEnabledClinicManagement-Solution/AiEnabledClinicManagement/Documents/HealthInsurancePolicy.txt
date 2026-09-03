@@ -1,0 +1,7 @@
+﻿Clinical Health Insurance Policy
+A deductible is the fixed amount a patient must pay out of pocket for covered healthcare services before the insurance plan begins to pay.
+A co-payment is a fixed fee that a patient pays at the time of service for a covered healthcare visit or procedure.
+Pre-authorization is the approval required from the insurance provider before certain procedures, tests, or medications are covered.
+Patients are responsible for paying the full cost of any non-covered services that are not included in their insurance plan.
+Submitting a claim to the insurance provider does not guarantee payment, as claims are subject to review and may be denied.
+Patients should verify their insurance coverage and benefits prior to receiving treatment to avoid unexpected costs.

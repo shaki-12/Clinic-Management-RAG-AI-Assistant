@@ -1,0 +1,7 @@
+﻿Clinical Appointment Policy
+Patients should arrive at least 15 minutes before their scheduled appointment time to allow for check-in and registration.
+Appointments must be cancelled at least 24 hours in advance to avoid a cancellation fee.
+Patients may reschedule an appointment by contacting the clinic at least 24 hours before the scheduled time, subject to availability.
+A no-show is defined as a patient who fails to attend a scheduled appointment without cancelling or rescheduling at least 24 hours in advance.
+Patients with repeated no-shows may be required to pay a deposit before booking future appointments.
+Walk-in patients will be seen based on provider availability and may experience longer wait times than scheduled patients.
