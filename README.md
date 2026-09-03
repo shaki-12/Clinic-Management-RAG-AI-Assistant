@@ -33,52 +33,99 @@ The LLM is provided with relevant content retrieved from these approved document
 ## Architecture
 
 Angular AI Assistant
+
         |
+
         | POST /api/AI/ask
+
         v
+
 ASP.NET Core Web API
+
         |
+
         v
+
 RAG Orchestration
+
         |
+
         +---- Question Embedding
+
         |
+
         v
+
 Knowledge Base
+
         |
+
         v
+
 Similarity Search
+
         |
+
         v
+
 Top-K Relevant Policy Chunks
+
         |
+
         v
+
 RAG Context / Prompt
+
         |
+
         v
+
 LLM
+
         |
+
         v
+
 Grounded Answer + Source
 
 ### Knowledge Base Initialization
 
 AppointmentPolicy.txt
+
 HealthInsurancePolicy.txt
+
           |
+
           v
+
 Document Loader
+
           |
+
           v
+
 Chunking
+
           |
+
           v
+
 Embedding Generation
+
           |
+
           v
+
 In-Memory Knowledge Base
 
 The policy documents are loaded, chunked, embedded, and stored in memory during application startup. Their embeddings are reused for later questions.
+
+## RAG Retrieval Configuration
+
+- Top-K results: 3
+- Minimum relevance score: 0.50
+
+The minimum relevance score is a retrieval threshold used to determine whether retrieved content is relevant enough to be included in the RAG context. It is not an AI accuracy percentage.
 
 ## Technologies Used
 
@@ -114,42 +161,85 @@ The policy documents are loaded, chunked, embedded, and stored in memory during 
 ## Project Structure
 
 AI-Enabled-Clinic-Management/
+
 │
+
 ├── Backend/
-│   └── AiEnabledClinicManagement/
-│       ├── Controllers/
-│       ├── Documents/
-│       │   ├── AppointmentPolicy.txt
-│       │   └── HealthInsurancePolicy.txt
-│       ├── Models/
-│       ├── Services/
-│       ├── Program.cs
-│       ├── appsettings.json
-│       └── ...
+
+│   └── AiEnabledClinicManagement-Solution/
+
+│       ├── AiEnabledClinicManagement-Solution.sln
+
+│       └── AiEnabledClinicManagement/
+
+│           ├── Controllers/
+
+│           ├── Documents/
+
+│           │   ├── AppointmentPolicy.txt
+
+│           │   └── HealthInsurancePolicy.txt
+
+│           ├── Models/
+
+│           ├── Services/
+
+│           ├── Program.cs
+
+│           ├── appsettings.json
+
+│           └── ...
+
 │
+
 ├── Frontend/
+
 │   └── ClinicalManagementFrontend/
+
 │       ├── src/
+
 │       │   ├── app/
+
 │       │   └── environments/
+
 │       ├── angular.json
+
 │       ├── package.json
+
 │       └── ...
+
 │
+
+├── Screenshots/
+
+│   ├── ...
+
+│
+
 ├── README.md
+
 └── .gitignore
+
+## Screenshots
+
+Screenshots of the clinic interface and Clara AI assistant are available in the `Screenshots` folder.
 
 ## AI Assistant
 
-The frontend provides a clinic-style floating AI assistant.
+The frontend provides a clinic-style floating AI assistant named **Clara**.
 
 Users can:
 
 1. Open the clinical assistant.
+
 2. Enter a question about an approved clinic policy.
+
 3. Send the question to the ASP.NET Core backend.
+
 4. Retrieve relevant policy content using RAG.
+
 5. Receive a grounded answer from the LLM.
+
 6. View the approved policy source used for the response.
 
 ## API Endpoints
@@ -227,7 +317,7 @@ The assistant should state that the approved clinical policies do not contain in
 
 Navigate to the backend project:
 
-cd Backend\AiEnabledClinicManagement
+cd Backend\AiEnabledClinicManagement-Solution\AiEnabledClinicManagement
 
 Run the application:
 
@@ -303,26 +393,47 @@ If an API key is accidentally committed, revoke or rotate the key immediately.
 The system is designed to test the complete RAG pipeline:
 
 User Question
+
        |
+
        v
+
 Question Embedding
+
        |
+
        v
+
 Similarity Search
+
        |
+
        v
+
 Top-K Policy Chunks
+
        |
+
        v
+
 RAG Context
+
        |
+
        v
+
 LLM
+
        |
+
        v
+
 Grounded Answer
+
        |
+
        v
+
 Source Document
 
 ### Required Test Cases
@@ -330,16 +441,23 @@ Source Document
 #### Appointment
 
 1. How early should I arrive for my appointment?
+
 2. How many hours before should I cancel?
+
 3. Can I reschedule my appointment?
+
 4. What is a no-show?
 
 #### Health Insurance
 
 5. What is a deductible?
+
 6. What is a co-payment?
+
 7. What is pre-authorization?
+
 8. Who pays for non-covered services?
+
 9. Does submitting a claim guarantee payment?
 
 #### Out-of-Policy
